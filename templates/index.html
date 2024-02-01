@@ -1,0 +1,30 @@
+<head>
+<meta charset="utf-8"/>
+<style>
+.sidebar {
+	width: 200px;
+	float: left;
+}
+.content {
+	margin-left: 230px;
+}
+</style>
+</head>
+<body>
+
+<div class='sidebar'>
+	@for mylesson in app.lessons
+		<div class='sidebar-header'>
+			<a href='/lesson/@mylesson.id'>@mylesson.title</a>
+		</div>
+	@end
+</div>
+<div class='content'>
+<h1>
+HELLO WORLD
+</h1>
+<pre>
+</pre>
+</div>
+
+</body>
