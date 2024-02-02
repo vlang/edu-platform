@@ -1,31 +1,37 @@
-<head>
-<meta charset="utf-8"/>
-<style>
-.sidebar {
-	width: 200px;
-	float: left;
-}
-.content {
-	margin-left: 230px;
-}
-</style>
-</head>
-<body>
-
-<div class='sidebar'>
-	@for mylesson in app.lessons
-		<div class='sidebar-header'>
-			<a href='/lesson/@mylesson.id'>@mylesson.title</a>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<style>
+			.sidebar {
+				width: 200px;
+				float: left;
+			}
+			.content {
+				margin-left: 230px;
+			}
+		</style>
+		<title>@lesson.title</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+		<script src="/assets/v.js"></script>
+		<script>hljs.highlightAll();</script>
+	</head>
+	<body>
+		<div class="sidebar">
+			@for lesson1 in app.lessons
+			<div class="sidebar-header">
+				<a href="/lesson/@lesson1.id">@lesson1.title</a>
+			</div>
+			@end
 		</div>
-	@end
-</div>
-<div class='content'>
-<h1>
-@lesson.title
-</h1>
-<pre>
-@lesson.body
-</pre>
-</div>
-
-</body>
+		@if lesson.id != -1
+			<div class="content">
+				<h1>@lesson.title</h1>
+				@body
+			</div>
+		@else
+			Lesson not found
+		@end
+	</body>
+</html>
