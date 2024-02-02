@@ -1,108 +1,95 @@
 module main
 
-import vweb
-import rand
+import json
+import markdown
+import net.http
 import os
+import rand
+import x.vweb
 
 const port = 8082
 
-struct State {
-mut:
-	cnt int
+pub struct Context {
+	vweb.Context
 }
 
-struct App {
-	vweb.Context
+pub struct App {
+	vweb.StaticHandler
 mut:
-	state shared State
-	lessons []Lesson = [
-	Lesson{
-		title: 'What is V?'
-		id: 1
-	}
-	Lesson{
-		title: 'Writing Our First Code'
-		id: 2
-	}
-	Lesson{
-		title: 'What is a Computer?'
-		id: 3
-	}]
+	lessons []Lesson
 }
 
 struct Lesson {
-	id int
-	title string
-	mut:
-	body string // markdown
+	id        int
+	title     string
+	filename  string
+	available bool = true
+mut:
+	body string
 }
 
-pub fn (app &App) before_request() {
-	$if trace_before_request ? {
-		eprintln('[vweb] before_request: ${app.req.method} ${app.req.url}')
-	}
-}
-
-['/users/:user']
-pub fn (mut app App) user_endpoint(user string) vweb.Result {
+@['/users/:user']
+pub fn (app &App) user_endpoint(mut ctx Context, user string) vweb.Result {
 	id := rand.intn(100) or { 0 }
-	return app.json({
-		user: id
+	return ctx.json({
+		'id': id
 	})
 }
 
-pub fn (mut app App) index() vweb.Result {
+pub fn (app &App) index(mut ctx Context) vweb.Result {
 	return $vweb.html()
 }
 
-['/lesson/:lesson_id']
-pub fn (mut app App) lesson(lesson_id int) vweb.Result {
-	/*
-	for mut lesson in app.lessons {
-		lesson.load_lesson_from_md_file()
-	}
-	lesson := app.lessons[0]
-	*/
-	mut lesson := app.lessons[lesson_id-1]
-		lesson.load_lesson_from_md_file()
-	println('!!!!!!!!')
-	println(lesson)
-	return $vweb.html()
-}
-
-fn (mut l Lesson) load_lesson_from_md_file() {
-	println('load id=$l.id')
-	files := os.ls('lessons/') or { return }
-	for i, file in files {
-		println(file)
-		//id := i + 1
-		if file.starts_with('${l.id}.') {
-			println('got $file')
-			l.body = os.read_file('lessons/' + file) or {return}
-			println(l.body)
-			return 
+@['/lesson/:lesson_id']
+pub fn (mut app App) lesson(mut ctx Context, lesson_id int) vweb.Result {
+	tmp := app.lessons.filter(it.id == lesson_id)
+	lesson := tmp[0] or {
+		Lesson{
+			id: -1
 		}
 	}
-
-
-	//println(files)
+	body := vweb.RawHtml(lesson.body)
+	return $vweb.html()
 }
 
-pub fn (mut app App) show_text() vweb.Result {
-	return app.text('Hello world from vweb')
+fn (mut app App) load_lessons() ! {
+	mut lessons := []Lesson{}
+	for lesson in json.decode([]Lesson, os.read_file('lessons.json')!)! {
+		if !lesson.available {
+			eprintln('Skipping lesson with id ${lesson.id} as it is not available.')
+			continue
+		}
+		lessons << Lesson{
+			id: lesson.id
+			title: lesson.title
+			filename: lesson.filename
+			body: markdown.to_html(os.read_file(os.join_path('lessons', lesson.filename)) or {
+				eprintln('Encountered error when loading lesson ${lesson.id} (${lesson.filename}): ${err}')
+				continue
+			})
+		}
+	}
+	app.lessons = lessons
 }
 
-pub fn (mut app App) cookie() vweb.Result {
-	app.set_cookie(name: 'cookie', value: 'test')
-	return app.text('Response Headers\n${app.header}')
+pub fn (mut app App) show_text(mut ctx Context) vweb.Result {
+	return ctx.text('Hello world from vweb')
 }
 
-[post]
-pub fn (mut app App) post() vweb.Result {
-	return app.text('Post body: ${app.req.data}')
+pub fn (mut app App) cookie(mut ctx Context) vweb.Result {
+	ctx.set_cookie(http.Cookie{ name: 'cookie', value: 'test' })
+	return ctx.text('Response Headers\n${ctx.req.header}')
+}
+
+@[post]
+pub fn (mut app App) post(mut ctx Context) vweb.Result {
+	return ctx.text('Post body: ${ctx.req.data}')
 }
 
 fn main() {
-	println('vweb example')
-	vweb.run(&App{}, port)
+	mut app := App{}
+	// app.handle_static('assets', false)!
+	app.mount_static_folder_at('assets', '/assets')!
+	app.load_lessons()!
+	vweb.run[App, Context](mut app, port)
 }
