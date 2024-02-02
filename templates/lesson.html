@@ -26,14 +26,12 @@
 			@end
 		</div>
 		@if lesson.id != -1
-			<span>
-				<div class="content">
-					<h1>@lesson.title</h1>
-					@body
-				</div>
-			</span>
+			<div class="content">
+				<h1>@lesson.title</h1>
+				@body
+			</div>
 		@else
-			<span>Lesson not found</span>
+			Lesson not found
 		@end
 	</body>
 </html>
