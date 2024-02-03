@@ -20,10 +20,14 @@ jobs:
       || github.event.repository.full_name != 'vlang/v'
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v3
-      - name: Build V
-        run: make
+      - name: Install V
+        id: install-v
+        uses: vlang/setup-v@v1.3
+        with:
+          check-latest: true
+
       - name: Check markdown line length & code examples
-        run: ./v check-md -hide-warnings .
+        uses: actions/checkout@v3
+        run: v check-md -hide-warnings .
         ## NB: -hide-warnings is used here, so that the output is less noisy,
         ## thus real errors are easier to spot.
