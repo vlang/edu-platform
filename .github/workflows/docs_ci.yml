@@ -14,11 +14,6 @@ on:
 jobs:
   check-markdown:
     runs-on: ubuntu-20.04
-    if: >
-      github.event_name != 'push'
-      || github.event.ref == 'refs/heads/master'
-      || github.event.repository.full_name != 'vlang/v'
-    timeout-minutes: 5
     steps:
       - name: Install V
         id: install-v
