@@ -153,7 +153,7 @@ function defaultSettings() {
   return {mode: Mode.DARK};
 }
 
-function settings(f) {
+function settings(f = null) {
   if (f) {
       const j = f({
           ...defaultSettings(),
@@ -167,12 +167,18 @@ function settings(f) {
   };
 }
 
-function switchMode() {
-  const { mode } = settings(j => ({
-      ...j,
-      mode: [Mode.LIGHT, Mode.DARK][j.mode],
-  }));
-  for (const e of document.getElementsByClassName('dark-theme')) {
-      e.disabled = mode === Mode.LIGHT;
-  }
+function setupMode(mode) {
+    for (const e of document.getElementsByClassName('dark-theme')) {
+        e.disabled = mode === Mode.LIGHT;
+    }
 }
+
+function switchMode() {
+    const { mode } = settings(j => ({
+        ...j,
+        mode: [Mode.LIGHT, Mode.DARK][j.mode],
+    }));
+    setupMode(mode);
+}
+
+setupMode(settings().mode);
