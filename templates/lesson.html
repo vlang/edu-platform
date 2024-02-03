@@ -36,17 +36,15 @@
 			</div>
 			@end
 		</div>
-		@if lesson.id != -1
-			<div class="content">
-				<h1>@lesson.title</h1>
-				<p>
-					@body
-				</p>
-			</div>
-		@else
-			<div class="text">
-				Lesson not found
-			</div>
-		@end
+		<div class="content">
+			@if lesson.id != -1
+			<h1>@lesson.title</h1>
+			<p>
+				@body
+			</p>
+			@else
+			Lesson not found
+			@end
+		</div>
 	</body>
 </html>
