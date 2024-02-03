@@ -10,11 +10,22 @@
 		.content {
 			margin-left: 230px;
 		}
+		#switch-mode-button {
+			width: 80%;
+			height: 30px;
+		}
 		</style>
+		<link rel="stylesheet" class="dark-theme" href="/assets/dark.css">
+		<script>window.noHljs = true;</script>
+		<script src="/assets/script.js"></script>
 		<title>V lessons</title>
 	</head>
 	<body>
 		<div class="sidebar">
+			<a href="/">Home</a>
+			<br /><br />
+			<button onclick="switchMode()" id="switch-mode-button">Switch dark/light modes</button>
+			<br /><br />
 			@for lesson1 in app.lessons
 				<div class="sidebar-header">
 					<a href="/lesson/@lesson1.id">@lesson1.title</a>

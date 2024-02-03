@@ -10,15 +10,26 @@
 			.content {
 				margin-left: 230px;
 			}
+			#switch-mode-button {
+				width: 80%;
+				height: 30px;
+			}
 		</style>
 		<title>@lesson.title</title>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+		<link rel="stylesheet" class="dark-theme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+		<link rel="stylesheet" class="dark-theme" href="/assets/dark.css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-		<script src="/assets/v.js"></script>
+		<script>window.noHljs = false;</script>
+		<script src="/assets/script.js"></script>
 		<script>hljs.highlightAll();</script>
 	</head>
 	<body>
 		<div class="sidebar">
+			<a href="/">Home</a>
+			<br /><br />
+			<button onclick="switchMode()" id="switch-mode-button">Switch dark/light modes</button>
+			<br /><br />
 			@for lesson1 in app.lessons
 			<div class="sidebar-header">
 				<a href="/lesson/@lesson1.id">@lesson1.title</a>
@@ -28,10 +39,14 @@
 		@if lesson.id != -1
 			<div class="content">
 				<h1>@lesson.title</h1>
-				@body
+				<p>
+					@body
+				</p>
 			</div>
 		@else
-			Lesson not found
+			<div class="text">
+				Lesson not found
+			</div>
 		@end
 	</body>
 </html>
