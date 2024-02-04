@@ -1,9 +1,8 @@
 		<div class="sidebar">
-			<a href="/">Home</a>
-			<br /><br />
-			<button onclick="switchMode()" class="switch-mode-button dark_mode">Dark</button>
-			<button onclick="switchMode()" class="switch-mode-button light_mode">Light</button>
-			<br /><br />
+			<a href="/">Home</a> 
+			@include "mode_switcher.html"
+			<br />
+			<br />
 			@for lesson1 in app.lessons
 				<div class="sidebar-header">
 					<a href="/lesson/@lesson1.id">@lesson1.title</a>

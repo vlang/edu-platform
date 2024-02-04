@@ -7,18 +7,14 @@
 }
 
 .switch-mode-button {
+	width: 30px;
 	height: 30px;
-	border-radius: 9px;
-	width: 64px;
+	display: inline-block;
+	position: relative;
+	top: 10px;
 }
 .switch-mode-button:hover {
 	transition: 0.5s;
-}
-html.light_mode .switch-mode-button {
-	border: 1px solid lightgray;
-}
-html.dark_mode .switch-mode-button {
-	border: 1px solid gray;
 }
 html.dark_mode .switch-mode-button:hover {
 	background-color: #555;
