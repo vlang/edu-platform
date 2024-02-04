@@ -21,5 +21,5 @@ COPY ./templates    ./templates
 COPY ./assets       ./assets
 COPY --from=buildapp /app/edu-platform ./edu-platform
 
-EXPOSE 8082
-ENTRYPOINT ["./edu-platform"]
+EXPOSE 8082/tcp
+ENTRYPOINT ["/app/edu-platform"]
