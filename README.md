@@ -14,4 +14,5 @@ V language installed locally, by running this command:
 ```sh
 v run main.v
 ```
-When the server is intialized, it will print the URL to open in your browser to look through these materials.
+When the server is intialized, it will print the URL to open in your browser to look through
+these materials.
