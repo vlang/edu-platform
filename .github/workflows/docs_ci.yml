@@ -1,0 +1,35 @@
+name: Docs CI
+
+### The documentation *SHOULD* stay valid, and the developers should receive
+### early warning, if they break it.
+
+on:
+  push:
+    paths-ignore:
+      - "**.yml"
+  pull_request:
+    paths-ignore:
+      - "**.yml"
+
+jobs:
+  check-markdown:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Install V
+        id: install-v
+        uses: vlang/setup-v@v1.3
+        with:
+          check-latest: true
+
+      - name: Check out edu-platform
+        uses: actions/checkout@v4
+        with:
+          path: edu-platform
+
+      - name: Check markdown line length & code examples
+        id: check-md
+        run: |
+          cd edu-platform
+          v check-md -hide-warnings .
+        ## NB: -hide-warnings is used here, so that the output is less noisy,
+        ## thus real errors are easier to spot.

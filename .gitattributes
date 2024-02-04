@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.v linguist-language=V
+*.vv linguist-language=V
+*.bat eol=crlf
+Dockerfile* linguist-language=Dockerfile
