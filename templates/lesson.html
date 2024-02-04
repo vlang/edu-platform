@@ -2,36 +2,29 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<style>
-			.sidebar {
-				width: 260;
-				float: left;
-			}
-			.content {
-				margin-left: 230px;
-			}
-		</style>
-		<title>@lesson.title</title>
-		<link rel="stylesheet" href="/assets/highlight.11.9.0.default.min.css">
-		<script src="/assets/highlight.11.9.0.min.js"></script>
-		<script src="/assets/v.js"></script>
-		<script>hljs.highlightAll();</script>
+		@include "common_css_and_js.html"
 	</head>
 	<body>
 		<div class="sidebar">
+			<a href="/">Home</a>
+			<br /><br />
+			<button onclick="switchMode()" id="switch-mode-button">Switch dark/light modes</button>
+			<br /><br />
 			@for lesson1 in app.lessons
 			<div class="sidebar-header">
 				<a href="/lesson/@lesson1.id">@lesson1.title</a>
 			</div>
 			@end
 		</div>
-		@if lesson.id != -1
-			<div class="content">
-				<h1>@lesson.title</h1>
+		<div class="content">
+			@if lesson.id != -1
+			<h1>@lesson.title</h1>
+			<p>
 				@body
-			</div>
-		@else
+			</p>
+			@else
 			Lesson not found
-		@end
+			@end
+		</div>
 	</body>
 </html>
