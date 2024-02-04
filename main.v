@@ -87,9 +87,10 @@ pub fn (mut app App) post(mut ctx Context) vweb.Result {
 }
 
 fn main() {
+	os.chdir(os.dir(os.executable()))!
 	mut app := App{}
-	// app.handle_static('assets', false)!
 	app.mount_static_folder_at('assets', '/assets')!
+	app.serve_static('/favicon.ico', 'assets/favicon.png')!
 	app.load_lessons()!
 	vweb.run[App, Context](mut app, port)
 }
