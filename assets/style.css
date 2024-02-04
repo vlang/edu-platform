@@ -1,7 +1,6 @@
 @font-face {
   font-family: "FiraCode";
   src: url("/assets/fonts/FiraCode-VF.woff2") format("woff2-variations");
-  font-weight: bold;
   font-stretch: 75% 125%;
   font-style: normal;
 }
