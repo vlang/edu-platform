@@ -1,9 +1,25 @@
+@font-face {
+  font-family: "FiraCode";
+  src: url("/assets/fonts/FiraCode-VF.woff2") format("woff2-variations");
+  font-weight: bold;
+  font-stretch: 75% 125%;
+  font-style: normal;
+}
+
 .sidebar {
-	width: 260;
+	width: 290px;
 	float: left;
+	height: 200px;
 }
 .content {
-	margin-left: 230px;
+	margin-left: 293px;
+}
+
+html {
+	font-size: 1.2em;
+}
+code {
+	font-family: "FiraCode", "Hack", "DejaVu Sans Mono", "JetBrains Mono", "Courier New", monospace;
 }
 
 .switch-mode-button {
