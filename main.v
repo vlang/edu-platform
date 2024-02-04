@@ -5,10 +5,6 @@ import net.http
 import os
 import x.vweb
 
-const port = 8082
-
-const lessons_folder = 'lessons'
-
 pub struct Context {
 	vweb.Context
 }
@@ -20,10 +16,9 @@ mut:
 }
 
 struct Lesson {
-	id        string
-	title     string
-	filename  string
-	available bool = true
+	id       string
+	title    string
+	filename string
 mut:
 	body string
 }
@@ -44,7 +39,7 @@ pub fn (mut app App) lesson(mut ctx Context, lesson_id string) vweb.Result {
 }
 
 fn (mut app App) load_lessons() ! {
-	all_lesson_files := os.walk_ext(lessons_folder, '.md').sorted()
+	all_lesson_files := os.walk_ext('lessons', '.md').sorted()
 	for file in all_lesson_files {
 		id := os.file_name(file).before('.')
 		content := os.read_file(file) or {
@@ -83,5 +78,5 @@ fn main() {
 	app.mount_static_folder_at('assets', '/assets')!
 	app.serve_static('/favicon.ico', 'assets/favicon.png')!
 	app.load_lessons()!
-	vweb.run[App, Context](mut app, port)
+	vweb.run[App, Context](mut app, 8082)
 }
