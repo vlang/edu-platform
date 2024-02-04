@@ -5,7 +5,27 @@
 .content {
 	margin-left: 230px;
 }
-#switch-mode-button {
-	width: 80%;
+
+.switch-mode-button {
 	height: 30px;
+	border-radius: 9px;
+	width: 64px;
+}
+.switch-mode-button:hover {
+	transition: 0.5s;
+}
+html.light_mode .switch-mode-button {
+	border: 1px solid lightgray;
+}
+html.dark_mode .switch-mode-button {
+	border: 1px solid gray;
+}
+html.dark_mode .switch-mode-button:hover {
+	background-color: #555;
+}
+html.light_mode .switch-mode-button.light_mode {
+	display: none;
+}
+html.dark_mode .switch-mode-button.dark_mode {
+	display: none;
 }
