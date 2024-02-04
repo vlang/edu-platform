@@ -40,3 +40,14 @@ html.light_mode .switch-mode-button.light_mode {
 html.dark_mode .switch-mode-button.dark_mode {
 	display: none;
 }
+
+
+.form_quit {
+	display: inline;
+	margin-left: 15px;
+}
+html.dark_mode .form_quit input {
+	background: white;
+	border: 1px solid lightgray;
+	border-radius: 5px;
+}

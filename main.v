@@ -12,7 +12,8 @@ pub struct Context {
 pub struct App {
 	vweb.StaticHandler
 mut:
-	lessons map[string]Lesson
+	lessons      map[string]Lesson
+	quit_enabled bool
 }
 
 struct Lesson {
@@ -72,9 +73,22 @@ pub fn (mut app App) post(mut ctx Context) vweb.Result {
 	return ctx.text('Post body: ${ctx.req.data}')
 }
 
+@[post]
+pub fn (mut app App) quit_app(mut ctx Context) vweb.Result {
+	if app.quit_enabled {
+		ctx.takeover_conn()
+		ctx.html('<h2>bye bye</h2>')
+		exit(0)
+	}
+	return ctx.redirect('/')
+}
+
 fn main() {
 	os.chdir(os.dir(os.executable()))!
 	mut app := App{}
+	$if quit_enabled ? {
+		app.quit_enabled = true
+	}
 	app.mount_static_folder_at('assets', '/assets')!
 	app.serve_static('/favicon.ico', 'assets/favicon.png')!
 	app.load_lessons()!
