@@ -26,10 +26,20 @@ jobs:
         with:
           path: edu-platform
 
+      - name: Check project compilation
+        id: can-compile
+        run: |
+          cd edu-platform
+          v .
+
+      - name: Check project code is formatted
+        id: can-compile
+        run: |
+          cd edu-platform
+          v fmt -verify .
+
       - name: Check markdown line length & code examples
         id: check-md
         run: |
           cd edu-platform
-          v check-md -hide-warnings .
-        ## NB: -hide-warnings is used here, so that the output is less noisy,
-        ## thus real errors are easier to spot.
+          v check-md .
