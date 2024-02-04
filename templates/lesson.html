@@ -8,13 +8,14 @@
 	<body>
 		@include "sidebar.html"
 		<div class="content">
-			@if lesson.id != -1
+			@if lesson.id != 'not_found'
 			<h1>@lesson.title</h1>
 			<p>
 				@body
 			</p>
 			@else
-			Lesson not found
+			<h1>Lesson not found</h1>
+			 ¯\_(ツ)_/¯
 			@end
 		</div>
 	</body>

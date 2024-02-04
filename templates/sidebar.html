@@ -3,7 +3,7 @@
 			@include "mode_switcher.html"
 			<br />
 			<br />
-			@for lesson1 in app.lessons
+			@for _, lesson1 in app.lessons
 				<div class="sidebar-header">
 					<a href="/lesson/@lesson1.id">@lesson1.title</a>
 				</div>

@@ -1,13 +1,13 @@
 module main
 
-import json
 import markdown
 import net.http
 import os
-import rand
 import x.vweb
 
 const port = 8082
+
+const lessons_folder = 'lessons'
 
 pub struct Context {
 	vweb.Context
@@ -16,11 +16,11 @@ pub struct Context {
 pub struct App {
 	vweb.StaticHandler
 mut:
-	lessons []Lesson
+	lessons map[string]Lesson
 }
 
 struct Lesson {
-	id        int
+	id        string
 	title     string
 	filename  string
 	available bool = true
@@ -28,24 +28,15 @@ mut:
 	body string
 }
 
-@['/users/:user']
-pub fn (app &App) user_endpoint(mut ctx Context, user string) vweb.Result {
-	id := rand.intn(100) or { 0 }
-	return ctx.json({
-		'id': id
-	})
-}
-
 pub fn (app &App) index(mut ctx Context) vweb.Result {
 	return $vweb.html()
 }
 
 @['/lesson/:lesson_id']
-pub fn (mut app App) lesson(mut ctx Context, lesson_id int) vweb.Result {
-	tmp := app.lessons.filter(it.id == lesson_id)
-	lesson := tmp[0] or {
+pub fn (mut app App) lesson(mut ctx Context, lesson_id string) vweb.Result {
+	lesson := app.lessons[lesson_id] or {
 		Lesson{
-			id: -1
+			id: 'not_found'
 		}
 	}
 	body := vweb.RawHtml(lesson.body)
@@ -53,23 +44,23 @@ pub fn (mut app App) lesson(mut ctx Context, lesson_id int) vweb.Result {
 }
 
 fn (mut app App) load_lessons() ! {
-	mut lessons := []Lesson{}
-	for lesson in json.decode([]Lesson, os.read_file('lessons.json')!)! {
-		if !lesson.available {
-			eprintln('Skipping lesson with id ${lesson.id} as it is not available.')
+	all_lesson_files := os.walk_ext(lessons_folder, '.md').sorted()
+	for file in all_lesson_files {
+		id := os.file_name(file).before('.')
+		content := os.read_file(file) or {
+			eprintln('Encountered error when loading lesson `${id}` `${file}`: ${err}')
 			continue
 		}
-		lessons << Lesson{
-			id: lesson.id
-			title: lesson.title
-			filename: lesson.filename
-			body: markdown.to_html(os.read_file(os.join_path('lessons', lesson.filename)) or {
-				eprintln('Encountered error when loading lesson ${lesson.id} (${lesson.filename}): ${err}')
-				continue
-			})
+		println('Loading lesson ${file} ...')
+		content_lines := content.split_into_lines()
+		title := content_lines[0].trim_space()
+		app.lessons[id] = Lesson{
+			id: id
+			title: title
+			filename: file
+			body: markdown.to_html(content_lines#[2..].join('\n'))
 		}
 	}
-	app.lessons = lessons
 }
 
 pub fn (mut app App) show_text(mut ctx Context) vweb.Result {
