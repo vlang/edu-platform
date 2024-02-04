@@ -5,21 +5,16 @@ RUN git clone --filter=blob:none https://github.com/vlang/v /vlang
 RUN cd /vlang; make; /vlang/v version
 RUN /vlang/v symlink
 
-FROM buildv as buildapp
-WORKDIR /app
+WORKDIR /edu
 COPY . .
-COPY --from=buildv /vlang/v /vlang/v 
-RUN /vlang/v symlink
-RUN /vlang/v -v install
-RUN /vlang/v -compress -cflags -static -cc gcc -prod -d trace_request_url -skip-unused -o edu-platform .
+RUN mkdir ../app
+RUN v -v install
+RUN v -compress -cflags -static -cc gcc -prod -d trace_request_url -skip-unused -o ../app/edu-platform .
+RUN mv ./assets /app && mv ./lessons /app && mv ./templates /app
 
-FROM scratch as final
+FROM scratch
 LABEL maintainer="Delyan Angelov <delian66@gmail.com>"
-WORKDIR /app
-COPY ./lessons      ./lessons
-COPY ./templates    ./templates
-COPY ./assets       ./assets
-COPY --from=buildapp /app/edu-platform ./edu-platform
+COPY --from=buildv /app /app
 
 EXPOSE 8082/tcp
 ENTRYPOINT ["/app/edu-platform"]
