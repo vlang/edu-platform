@@ -1,4 +1,4 @@
-name: Docs CI
+name: CI
 
 ### The documentation *SHOULD* stay valid, and the developers should receive
 ### early warning, if they break it.
