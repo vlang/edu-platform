@@ -16,7 +16,6 @@ RUN /vlang/v -compress -cflags -static -cc gcc -prod -d trace_request_url -skip-
 FROM scratch as final
 LABEL maintainer="Delyan Angelov <delian66@gmail.com>"
 WORKDIR /app
-COPY ./lessons.json ./lessons.json
 COPY ./lessons      ./lessons
 COPY ./templates    ./templates
 COPY ./assets       ./assets
