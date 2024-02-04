@@ -11,7 +11,7 @@ COPY . .
 COPY --from=buildv /vlang/v /vlang/v 
 RUN /vlang/v symlink
 RUN /vlang/v -v install
-RUN /vlang/v -cflags -static -cc gcc -prod -d trace_request_url -skip-unused -o edu-platform .
+RUN /vlang/v -compress -cflags -static -cc gcc -prod -d trace_request_url -skip-unused -o edu-platform .
 
 FROM alpine:3.19 as final
 LABEL maintainer="Delyan Angelov <delian66@gmail.com>"
