@@ -7,7 +7,7 @@ RUN /vlang/v symlink
 
 WORKDIR /edu
 COPY . .
-RUN mkdir ../app
+RUN mkdir /app
 RUN v -v install
 RUN v -compress -cflags -static -cc gcc -prod -d trace_request_url -skip-unused -o /app/edu-platform .
 RUN mv ./assets /app && mv ./lessons /app && mv ./templates /app
