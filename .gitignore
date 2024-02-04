@@ -1,5 +1,7 @@
 # Binaries for programs and plugins
 main
+edu-platform
+edu-platform.exe
 
 *.exe
 *.exe~
@@ -32,3 +34,4 @@ token.txt
 /test*.py
 /test.py
 /test*.vsh
+
