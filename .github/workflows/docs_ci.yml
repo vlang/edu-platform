@@ -23,7 +23,7 @@ jobs:
           path: edu-platform
 
       - name: Install V project dependencies
-        run: cd lessons_folder; v install
+        run: cd edu-platform; v install
 
       - name: Check project compilation
         run: |
