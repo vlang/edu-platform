@@ -6,17 +6,7 @@
 		@include "common_css_and_js.html"
 	</head>
 	<body>
-		<div class="sidebar">
-			<a href="/">Home</a>
-			<br /><br />
-			<button onclick="switchMode()" id="switch-mode-button">Switch dark/light modes</button>
-			<br /><br />
-			@for lesson1 in app.lessons
-				<div class="sidebar-header">
-					<a href="/lesson/@lesson1.id">@lesson1.title</a>
-				</div>
-			@end
-		</div>
+		@include "sidebar.html"
 		<div class="content">
 			<h1>V education materials</h1>
 		</div>
