@@ -13,7 +13,7 @@ RUN /vlang/v symlink
 RUN /vlang/v -v install
 RUN /vlang/v -compress -cflags -static -cc gcc -prod -d trace_request_url -skip-unused -o edu-platform .
 
-FROM alpine:3.19 as final
+FROM scratch as final
 LABEL maintainer="Delyan Angelov <delian66@gmail.com>"
 WORKDIR /app
 COPY ./lessons.json ./lessons.json
