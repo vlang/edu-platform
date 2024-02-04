@@ -5,11 +5,7 @@ name: Docs CI
 
 on:
   push:
-    paths-ignore:
-      - "**.yml"
   pull_request:
-    paths-ignore:
-      - "**.yml"
 
 jobs:
   check-markdown:
@@ -27,19 +23,16 @@ jobs:
           path: edu-platform
 
       - name: Check project compilation
-        id: can-compile
         run: |
           cd edu-platform
           v .
 
       - name: Check project code is formatted
-        id: can-compile
         run: |
           cd edu-platform
           v fmt -verify .
 
       - name: Check markdown line length & code examples
-        id: check-md
         run: |
           cd edu-platform
           v check-md .
