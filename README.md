@@ -19,11 +19,11 @@ these materials.
 
 ## Development
 
-While writing new documentation, it is often nice to be able to focus
-on just writing, and not restarting the webserver every time you want
-to see how will your edits look like in your browser.
+While writing new documentation, it is often nice to be able to focus on
+writing, rather than restarting the webserver every time you want to see how
+your edits look in your browser.
 
-To achieve that, start your server like this:
+To achieve this, start the server like so:
 ```
 v -d vweb_livereload watch --add 'lessons/*' run .
 ```
@@ -33,17 +33,18 @@ will refresh itself after that happens.
 ## Usage with Docker
 
 For convenience, there is also a [Dockerfile](Dockerfile) in this repository.
-Here is how to use it, to build yourself a local image, with a
-precompiled application, using latest V:
+
+Here is how to use it to build a local image with a precompiled application,
+using latest V:
 ```sh
 docker build -t edu_platform_app .
 ```
 
-After you have build the local image, you can start a container with it:
+After you have built the local image, you can start a container with it:
 ```sh
 docker run -p 127.0.0.1:8082:8082 edu_platform_app:latest
 ```
 
-Note, that the executable /app/edu-platform inside that image, is
-compiled statically on Alpine, and so can run unchanged even on very old
-host distributions.
+Note, that the executable /app/edu-platform inside that image is compiled
+statically on Alpine, and so can run unchanged even on very old host
+distributions.
