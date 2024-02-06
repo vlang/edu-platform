@@ -17,6 +17,19 @@ v run main.v
 When the server is intialized, it will print the URL to open in your browser to look through
 these materials.
 
+## Development
+
+While writing new documentation, it is often nice to be able to focus
+on just writing, and not restarting the webserver every time you want
+to see how will your edits look like in your browser.
+
+To achieve that, start your server like this:
+```
+v -d vweb_livereload watch --add 'lessons/*' run .
+```
+V will recompile your server on each detected change, and your page
+will refresh itself after that happens.
+
 ## Usage with Docker
 
 For convenience, there is also a [Dockerfile](Dockerfile) in this repository.
